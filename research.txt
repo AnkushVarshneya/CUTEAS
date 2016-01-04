@@ -1,0 +1,24 @@
+Algorithms
+Artificial Intelligence
+Bioinformatics
+Communication Networks
+Computational Geometry
+Computer Graphics
+Computer Vision
+Computer and Network Security
+Data Structures
+Database Systems
+Discrete Mathematics
+Distributed and Real-time Systems
+GIS
+Graph Theory
+Human Computer Interaction
+Logic Programming
+Machine Learning
+Medical Computing
+Parallel Computing
+Programming Languages
+Robotics
+Software Engineering
+Web Technologies
+Wireless Communication

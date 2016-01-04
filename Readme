@@ -1,0 +1,117 @@
+//----------------------------------------------------------------------------//
+//                                  Compile                                   //
+//----------------------------------------------------------------------------//
+
+To compile the cutaes program, type in 'make cutaes'
+To compile the test program for the overloaded operators, type in 'make testPgm'
+
+Due to the number of gtk windows we have in our program, it unfortunately takes 
+a little more time to compile because all the gtk windows need to include 
+such a big file(gtkmm.h).
+                    
+
+
+//----------------------------------------------------------------------------//
+//                                  Execute                                   //
+//----------------------------------------------------------------------------//
+
+After compiling, type in ./cutaes to execute the cutaes program.
+After compiling, type in ./testPgm to execute the test program.
+
+
+
+//----------------------------------------------------------------------------//
+//                          Operating the Program                             //
+//----------------------------------------------------------------------------//
+
+Please note, that if the student user tries to create another application with 
+the same student number, but using a different name, email, etc. error checking
+is done and the general information is changed to be what was passed in when the
+first occurance of that student number was created.
+
+
+Text files required for this program:
+  courses.txt:      Contains a list of computer science courses a student can 
+                       be a TA for.
+  date.txt:         Contains all of the numbers needed to write a date
+  faculty.txt:      Contains all of the faculty members in the CompSci Department
+  info.txt:         Contains the a list components needed to apply for a course
+                      (ie. Term, Year, Grade, Supervisor)
+  lastAppNum.txt:   Holds the number of the last application
+  majors.txt:       Contains a list of all the majors offered at Carleton.
+  research.txt:     Contains a list of all of the research programs offered
+
+
+Directories that hold the text files created from this program:
+  Applications/     Holds all of the applications according to course applied for
+    GradApps/       Applications of graduate students
+    UndegradApps/   Applications of undergraduate students
+  AppSummaries/     Holds all the summaries of applications that the administrator
+                      requested (also includes AllAssignedApps and AllPendingApps)
+    AssignedByCrs/  Summary of assigned applications printed by course
+    PendingByBrs/   Summary of pending applications printed by course
+
+
+Print statements are outputted to the terminal to indicate what is being
+constructed and destructed.
+
+
+MAKEFILE
+========
+make cuteas  - Builds the cutaes program
+make testPgm - Builds the test program (for overloaed operators)
+clean        - Deletes all the object files
+package      - Packages program in a tar file
+./cutaes     - Runs the cutaes program
+./testPgm    - Runs the test program
+
+
+
+//----------------------------------------------------------------------------//
+//                               Limitations                                  //
+//----------------------------------------------------------------------------//
+
+LIMITATION #1:
+We suspect that Gtk has a memory leak somewhere, as we are not able to figure
+out why we lose so many blocks of memory although we explicitly deallocate all
+of the memory that we allocated. Below is a copy of the valgrind results after
+one optimal execution of the application.
+
+Also, when trying to fix this issue, it was noticed that when the memory was 
+NOT explicitly deallocated, the amount of memory lost was much smaller in
+comparision to when all memory was explicitly allocated. In other words, it
+appears that when we delete allocated memory, the amount of lost memory greatly
+increases.
+
+==2333== HEAP SUMMARY:
+==2333==     in use at exit: 1,713,690 bytes in 17,486 blocks
+==2333==   total heap usage: 308,705 allocs, 291,219 frees, 26,891,999 bytes allocated
+==2333== 
+==2333== LEAK SUMMARY:
+==2333==    definitely lost: 12,044 bytes in 159 blocks
+==2333==    indirectly lost: 7,240 bytes in 362 blocks
+==2333==      possibly lost: 803,194 bytes in 4,465 blocks
+==2333==    still reachable: 891,212 bytes in 12,500 blocks
+==2333==         suppressed: 0 bytes in 0 blocks
+==2333== Rerun with --leak-check=full to see details of leaked memory
+==2333== 
+==2333== For counts of detected and suppressed errors, rerun with: -v
+==2333== Use --track-origins=yes to see where uninitialised values come from
+==2333== ERROR SUMMARY: 36 errors from 15 contexts (suppressed: 0 from 0)
+
+LIMITATION #2:
+In the majority of our UI classes, we use "delete this;" in order to destruct the
+current window. We acknowledge that this is poor coding practice, however we were 
+unable to find an alternative solution to the problem. We attempted to pass
+a pointer to that window and delete it in another class, however, it did not seem
+correct visually nor conceptually. 
+
+LIMITATION #3:
+In the test program for testing the overloaded operators, we acknowledge that there 
+is a memory leak being caused by the tests for cascading for both + operators and 
+both - operators (the 4 lines that are causing the leak are noted in the code).
+We think this is because the first function call in the cascading expression creates 
+a new queue, however it does not get deallocated before continuing to the next 
+operation in the cascading expression, thus creating the leak. We tried others ways
+to eliminate the memory leak, however it seems unavoidable. 
+
